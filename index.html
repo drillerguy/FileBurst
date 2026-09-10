@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="description" content="Split oversized PDFs into numbered, message-ready parts and send them in order." />
+    <title>FileBurst</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="brandbar">
+        <a class="brand" href="#" aria-label="FileBurst home">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>File<span>Burst</span></span>
+        </a>
+        <span class="device-pill" id="devicePill">Checking device…</span>
+      </header>
+
+      <section class="workspace" aria-labelledby="mainTitle">
+        <div class="intro">
+          <p class="eyebrow">LARGE FILE → ORDERED MESSAGES</p>
+          <h1 id="mainTitle">Send the whole PDF.<br /><span>Without the hassle.</span></h1>
+          <p class="lede">Choose one PDF. FileBurst divides it into numbered parts and keeps every send in order.</p>
+        </div>
+
+        <div class="panel" id="setupPanel">
+          <label class="dropzone" id="dropzone" for="pdfInput">
+            <input id="pdfInput" type="file" accept="application/pdf,.pdf" />
+            <span class="file-symbol" aria-hidden="true">PDF</span>
+            <strong id="dropTitle">Choose a PDF</strong>
+            <small id="dropDetail">or drop one here</small>
+          </label>
+
+          <div class="file-card hidden" id="fileCard">
+            <div class="file-card-icon">PDF</div>
+            <div class="file-info">
+              <strong id="fileName"></strong>
+              <span id="fileMeta"></span>
+            </div>
+            <button class="icon-button" id="clearFile" type="button" aria-label="Remove selected PDF">×</button>
+          </div>
+
+          <div class="form-grid">
+            <label>
+              <span>Recipient</span>
+              <input id="recipient" type="tel" autocomplete="tel" placeholder="Name or phone number" />
+              <small>Saved on this device for the sending queue.</small>
+            </label>
+
+            <label>
+              <span>Maximum size per part</span>
+              <select id="targetSize">
+                <option value="5">5 MB — safest</option>
+                <option value="10" selected>10 MB — recommended</option>
+                <option value="15">15 MB</option>
+                <option value="20">20 MB</option>
+                <option value="25">25 MB</option>
+              </select>
+              <small>FileBurst checks the actual size of every generated part.</small>
+            </label>
+          </div>
+
+          <button class="primary" id="splitButton" type="button" disabled>
+            <span>Prepare FileBurst</span>
+            <span aria-hidden="true">→</span>
+          </button>
+          <p class="privacy"><span aria-hidden="true">●</span> Your PDF stays on this device.</p>
+        </div>
+
+        <section class="panel queue hidden" id="queuePanel" aria-live="polite">
+          <div class="queue-head">
+            <div>
+              <p class="eyebrow">READY TO SEND</p>
+              <h2 id="queueTitle">0 parts prepared</h2>
+            </div>
+            <button class="text-button" id="startOver" type="button">Start over</button>
+          </div>
+
+          <div class="progress-track"><div id="progressBar"></div></div>
+          <p class="progress-label" id="progressLabel">0 of 0 sent</p>
+
+          <div class="current-part">
+            <div class="part-number" id="partNumber">01</div>
+            <div>
+              <strong id="partName"></strong>
+              <span id="partSize"></span>
+            </div>
+            <span class="status" id="partStatus">NEXT</span>
+          </div>
+
+          <button class="primary burst" id="sendButton" type="button">
+            <span id="sendButtonText">Send part 1</span>
+            <span class="burst-icon" aria-hidden="true">➤</span>
+          </button>
+          <button class="secondary" id="downloadButton" type="button">Download current part</button>
+          <p class="queue-note" id="queueNote">After you send, return to FileBurst for the next numbered part.</p>
+        </section>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
